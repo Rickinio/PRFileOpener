@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PRFileOpener
 {
@@ -77,12 +79,9 @@ namespace PRFileOpener
 
             var sp = new Stopwatch();
             sp.Start();
-            foreach (var file in filesChanged)
-            {
-                var filePath = $"{currentSolutionPath}\\{file.Replace("/", "\\")}";
-                await VS.Documents.OpenAsync(filePath);
-            }
-
+            var files = filesChanged.Select(f => $"{currentSolutionPath}\\{f.Replace("/", "\\")}");
+            var tasks = files.Select(f => VS.Documents.OpenAsync(f)).ToArray();
+            await Task.WhenAll(tasks);
             sp.Stop();
             Debug.WriteLine($"Elapsed ms was : {sp.ElapsedMilliseconds}");
         }

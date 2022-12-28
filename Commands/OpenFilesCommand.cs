@@ -1,11 +1,10 @@
-﻿using PRFileOpener.Options;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using PRFileOpener.Options;
 
-namespace PRFileOpener
+namespace PRFileOpener.Commands
 {
     [Command(PackageIds.OpenFilesCommand)]
     internal sealed class OpenFilesCommand : BaseCommand<OpenFilesCommand>

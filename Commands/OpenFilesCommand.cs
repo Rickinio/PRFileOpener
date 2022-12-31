@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Microsoft.VisualStudio.Shell.Interop;
 using PRFileOpener.Options;
 
 namespace PRFileOpener.Commands
@@ -12,7 +13,7 @@ namespace PRFileOpener.Commands
         protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
             var currentSolution = await VS.Solutions.GetCurrentSolutionAsync();
-            var currentSolutionPath = Directory.GetParent(currentSolution.FullPath).FullName;
+            var currentSolutionPath = Directory.GetParent(currentSolution.FullPath)?.FullName;
 
             var targetBranchName = OptionsPageDialog.Instance.TargetBranchName;
             if (targetBranchName is null) return;
@@ -76,13 +77,40 @@ namespace PRFileOpener.Commands
                 await VS.MessageBox.ShowErrorAsync("Error", stdError);
             }
 
-            var sp = new Stopwatch();
-            sp.Start();
-            var files = filesChanged.Select(f => $"{currentSolutionPath}\\{f.Replace("/", "\\")}");
-            var tasks = files.Select(f => VS.Documents.OpenAsync(f)).ToArray();
-            await Task.WhenAll(tasks);
-            sp.Stop();
-            Debug.WriteLine($"Elapsed ms was : {sp.ElapsedMilliseconds}");
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var factory = (IVsThreadedWaitDialogFactory)await VS.Services.GetThreadedWaitDialogAsync();
+            ThreadedWaitDialogProgressData progress = new(
+                "Opening documents",
+                "",
+                "",
+                isCancelable: true,
+                currentStep: 0,
+                totalSteps: filesChanged.Count
+            );
+
+            using (var session = factory.StartWaitDialog(Vsix.Name, initialProgress: progress))
+            {
+                for (var i = 0; i < filesChanged.Count; i++)
+                {
+                    if (session.UserCancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    progress = new ThreadedWaitDialogProgressData(
+                        progress.WaitMessage,
+                        filesChanged[i],
+                        progress.StatusBarText,
+                        progress.IsCancelable,
+                        i,
+                        progress.TotalSteps
+                    );
+
+                    session.Progress.Report(progress);
+
+                    await VS.Documents.OpenAsync(Path.Combine(currentSolutionPath, filesChanged[i]));
+                }
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="PRFileOpener.6b8d6338-e27f-471b-be74-c11619f176b9" Version="0.1" Language="en-US" Publisher="Ricky Stam" />
-        <DisplayName>PRFileOpener</DisplayName>
+        <Identity Id="PRFileOpener.6b8d6338-e27f-471b-be74-c11619f176c9" Version="0.1" Language="en-US" Publisher="Ricky Stam" />
+        <DisplayName>PR File Opener</DisplayName>
         <Description xml:space="preserve">VS Extension to help you do PR reviews easier and faster by opening all added/modified files of current branch in comparison with PRs target branch.</Description>
         <MoreInfo>https://github.com/Rickinio/PRBuddy</MoreInfo>
         <License>LICENSE.txt</License>

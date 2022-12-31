@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.Shell.Interop;
+using PRFileOpener.Options;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using Microsoft.VisualStudio.Shell.Interop;
-using PRFileOpener.Options;
 
 namespace PRFileOpener.Commands
 {

@@ -11,7 +11,7 @@ namespace PRFileOpener
         public const string Name = "PRFileOpener";
         public const string Description = @"VS Extension to help you do PR reviews easier and faster by opening all added/modified files of current branch in comparison with PRs target branch.";
         public const string Language = "en-US";
-        public const string Version = "1.0";
+        public const string Version = "0.1";
         public const string Author = "Ricky Stam";
         public const string Tags = "";
     }

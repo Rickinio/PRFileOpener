@@ -9,8 +9,7 @@ namespace PRFileOpener
     {
         public const string Id = "PRFileOpener.6b8d6338-e27f-471b-be74-c11619f176b9";
         public const string Name = "PRFileOpener";
-        public const string Description = @"VS Extension to help you do PR reviews easier and faster by opening all added/modified files of current branch in comparison with PRs target branch.
-You can set the target branch in Tools -> Options -> ";
+        public const string Description = @"VS Extension to help you do PR reviews easier and faster by opening all added/modified files of current branch in comparison with PRs target branch.";
         public const string Language = "en-US";
         public const string Version = "1.0";
         public const string Author = "Ricky Stam";
